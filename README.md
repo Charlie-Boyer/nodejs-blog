@@ -1,2 +1,2 @@
-# Md-Blog
-Simple markdown blog using nodejs, express and mongodb
+# node-js blog
+Simple blog using nodejs
