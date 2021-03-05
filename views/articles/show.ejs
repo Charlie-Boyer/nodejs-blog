@@ -1,0 +1,14 @@
+<h1>
+  <%= article.title %>
+</h1>
+<a href="/">Tous les articles</a>
+<p>
+  <%= article.createdAt.toLocaleDateString() %>
+</p>
+<p>
+  <%= article.description %>
+</p>
+<p>
+  <%= article.markdown %>
+</p>
+<a href=<%=`/articles/edit/${article.id}` %>><p>edit</p></a>

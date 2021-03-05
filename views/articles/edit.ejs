@@ -1,0 +1,6 @@
+<h1>Edit article</h1>
+<form action="/articles/edit/<%= article.id %>/?_method=PUT" method="POST">
+  <%- include('_form_fields') %>
+    <button type="submit">soumet</button>
+    <a href="/">Annuler</a>
+</form>
