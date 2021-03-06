@@ -1,10 +1,10 @@
 {
-  "name": "Md-Blog",
+  "name": "nodejs-blog",
   "version": "1.0.0",
-  "description": "Simple markdown blog using nodejs, express and mongodb",
+  "description": "Simple blog using nodejs",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
