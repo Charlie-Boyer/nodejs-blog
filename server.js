@@ -1,42 +1,45 @@
-const mongoose = require('mongoose');
-require('dotenv').config();
-const methodOverride = require('method-override');
 const express = require('express');
-const layouts = require('express-ejs-layouts');
-
-
-const port = 3000;
 const app = express();
+const session = require('express-session');
+require('dotenv').config();
+
+const passport = require('passport');
+
+const methodOverride = require('method-override');
+const layouts = require('express-ejs-layouts');
+require('./db');
+
+
 
 
 const articleRouter = require('./routes/articles');
-const Article = require('./models/article');
+const Article = require('./models/Article');
 
 
-mongoose.connect(
-  process.env.DB_URI,
-  { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },
-  (error) => {
-    if (!error) {
-      return console.log('db connection success')
-    }
-    return console.log(error)
-  }
-)
-
-
-//middlewares
-app.use(methodOverride('_method'));
-app.use(express.urlencoded({ extended: false }));
-
-
-app.use(layouts);
 app.set('view engine', 'ejs');
 
 
+//middlewares
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24
+  }
+}))
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(methodOverride('_method'));
+app.use(express.urlencoded({ extended: false }));
+app.use(layouts);
 app.use('/articles', articleRouter);
 
+
+const authRouter = require('./routes/auth');
+app.use('/auth', authRouter);
 
 
 app.get('/', async (req, res) => {
@@ -45,6 +48,6 @@ app.get('/', async (req, res) => {
 });
 
 
-app.listen(port, () => {
-  console.log('server connection success at port: ' + port)
+app.listen(process.env.PORT || 3000, () => {
+  console.log('server connection success')
 });
