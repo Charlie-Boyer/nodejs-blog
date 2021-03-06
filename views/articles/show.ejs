@@ -11,4 +11,7 @@
 <p>
   <%= article.markdown %>
 </p>
+
+<% if(user) { %>
 <a href=<%=`/articles/edit/${article.id}` %>><p>edit</p></a>
+<% } %>

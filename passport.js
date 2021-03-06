@@ -1,15 +1,16 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('./models/User');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 passport.use(new LocalStrategy(
   function (username, password, done) {
-    console.log(username)
     User.findOne({ username: username }, function (err, user) {
       console.log(user)
       if (err) { return done(err); }
       if (!user) { return done(null, false); }
-      if (user.password !== password) { return done(null, false); }
+      if (!bcrypt.compareSync(password, user.password)) { return done(null, false); }
       return done(null, user);
     });
   }));
@@ -24,12 +25,11 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
-
 module.exports = function (req, res, next) {
   if (req.isAuthenticated()) {
     return next()
   }
   else {
-    return res.sendStatus(403) 
-  }
-}
+    return res.sendStatus(403);
+  };
+};
